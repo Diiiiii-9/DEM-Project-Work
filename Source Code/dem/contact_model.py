@@ -120,7 +120,9 @@ class HertzMindlinDashpot(ContactModel):
         # Stiffness for Tangential direction
         # Mindlin: k_t depends on normal force/overlap
         k_t = 8 * G_eq * np.sqrt(R_eq * interpenetration)
-        c_t = 2* xi * np.sqrt(m_eq * k_t)
+
+        # Tangential Damping (Tsuji model)
+        c_t = 2 * xi * np.sqrt(m_eq * k_t)
         
         # Retrieve previous tangential spring displacement (overlap)
         delta_t_vec = p1.tangential_overlaps.get(p2.id, np.zeros(3))

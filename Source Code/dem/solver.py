@@ -1,9 +1,10 @@
 class DEMSolver:
-    def __init__(self, particles, contact_model, integrator, gravity):
+    def __init__(self, particles, contact_model, integrator, gravity, boundaries):
         self.particles = particles
         self.contact_model = contact_model
         self.integrator = integrator
         self.gravity = gravity
+        self.boundaries = boundaries
 
     def solve_time_step(self, delta_t):
         # --- Step 1: Pre-force integration (update position, angle) ---
@@ -23,6 +24,13 @@ class DEMSolver:
                     p1.torque += torque1
                     p2.force -= force
                     p2.torque += torque2
+        for p in self.particles:
+            for boundary in self.boundaries:
+                # Compute contact force and torque with boundary # NEW FUNCTION!
+                force, torque = self.contact_model.compute_boundary_contact(p, boundary, delta_t)
+                # Accumulate forces and torques
+                p.force += force
+                p.torque += torque
 
         # --- Step 4: Add external forces (e.g. gravity) ---
         for p in self.particles:

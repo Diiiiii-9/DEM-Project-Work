@@ -120,6 +120,7 @@ class HertzMindlinDashpot(ContactModel):
         # Stiffness for Tangential direction
         # Mindlin: k_t depends on normal force/overlap
         k_t = 8 * G_eq * np.sqrt(R_eq * interpenetration)
+
         # Tangential Damping (Tsuji model)
         c_t = 2 * xi * np.sqrt(m_eq * k_t)
         
@@ -199,3 +200,89 @@ class HertzMindlinDashpot(ContactModel):
         alpha = e * (h1 + e * (h2 + e * (h3 + e * (h4 + e * (h5 + e * (h6 + e * (h7 + e *(h8 + e * (h9 + e * h10)))))))))
 
         return np.sqrt(1.0/(1.0 - (1.0+e)*(1.0+e) * np.exp(alpha)) - 1.0)
+    
+    def compute_boundary_contact(self, p, boundary, delta_t):
+        """
+        Compute contact force and torque between a particle and a rigid boundary.
+        """
+        vec_to_boundary = p.position - boundary.point
+        distance = np.dot(vec_to_boundary, boundary.normal)
+        interpenetration = p.radius - distance
+        if interpenetration <= 0:
+            # No contact
+            if boundary.boundary_id in p.tangential_overlaps:
+                del p.tangential_overlaps[boundary.boundary_id]
+            return np.zeros(3), np.zeros(3)
+        n = boundary.normal
+
+        interpenetration_vel = -np.dot(p.velocity, n)
+
+        # Equivalent properties
+        # Equivalent radius and mass for particle-boundary contact
+        R_eq = p.radius
+        m_eq = p.mass
+
+        # Equivalent Young's modulus
+        E_eq = 1 / ((1 - p.nu**2)/p.E + (1 - boundary.nu**2)/boundary.E)
+
+        # Equivalent Shear modulus
+        G1 = p.E / (2 * (1 + p.nu))
+        G2 = boundary.E / (2 * (1 + boundary.nu))
+        G_eq = 1 / ((2 - p.nu)/G1 + (2 - boundary.nu)/G2)
+
+        # Normal Force (Hertzian)
+        xi = self.GammaForHertzThornton()
+
+        k_n = 2 * E_eq * np.sqrt(R_eq * interpenetration)
+        c_n = 2 * xi * np.sqrt(m_eq * k_n)
+
+        # contact force in normal direction
+        F_n_mag = (2/3) * k_n * interpenetration + c_n * interpenetration_vel
+
+        if F_n_mag < 0: 
+            F_n_mag = 0.0
+        F_n = F_n_mag * n   #? Force on particle from boundary (along n)
+
+        
+        x_ip = (p.radius - interpenetration) * n    #? Lever arm from particle center to contact point
+        v_ip = p.velocity + np.cross(p.omega, x_ip) #? Velocity at contact point
+
+        v_rel = v_ip - boundary.velocity    # Relative velocity at contact point
+        v_rel_n = np.dot(v_rel, n) * n      # Velocity component normal to boundary
+        v_rel_t = v_rel - v_rel_n           # Tangential relative velocity
+
+        v_rel_t[2] = 0.0 # Ensure 2D plane
+
+        k_t = 8 * G_eq * np.sqrt(R_eq * interpenetration)   # Stiffness for Tangential direction
+        c_t = 2* xi * np.sqrt(m_eq * k_t)                   # Tangential damping
+
+        if not hasattr(p, 'tangential_overlaps'):
+            p.tangential_overlaps = {}
+        delta_t_vec = p.tangential_overlaps.get(boundary.boundary_id, np.zeros(3))
+
+        delta_t_vec += v_rel_t * delta_t
+        F_t_trial = -k_t * delta_t_vec - c_t * v_rel_t      # Trial Tangential Force
+
+        mu_effective = min(self.mu_friction, getattr(boundary, 'mu', 0.5))  # Friction coefficient (minimum)
+
+        F_t_mag_trial = np.linalg.norm(F_t_trial)   # Magnitude of trial tangential force
+
+        F_n_mag_abs = np.abs(F_n_mag)           # Magnitude of normal force
+        F_t_limit = mu_effective * F_n_mag_abs  # Friction limit
+
+        F_t = np.zeros(3)
+        if F_t_mag_trial > F_t_limit and F_t_mag_trial > 1e-12:
+            # SLIDING condition
+            ratio = F_t_limit / F_t_mag_trial
+            F_t = F_t_trial * ratio
+            delta_t_vec = delta_t_vec * ratio
+        else:
+            # STICK condition
+            F_t = F_t_trial
+            
+        # Store updated tangential overlap
+        p.tangential_overlaps[boundary.boundary_id] = delta_t_vec
+        F_total = F_n + F_t
+        torque = np.cross(x_ip, F_t)
+        return F_total, torque  
+

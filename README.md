@@ -103,6 +103,57 @@ The contact force $\mathbf{F}$ is decomposed into normal ($F_n$) and tangential 
 ### Time Integration
 [cite_start]The simulation uses the **Velocity-Verlet** algorithm, a symplectic integrator that offers good stability and energy conservation properties for N-body systems[cite: 40, 93].
 
+## Task 3: Verification and Validation Strategy
+
+[cite_start]To assess the correctness and robustness of the implemented **Hertz-Mindlin (HM+D) contact model** (Task 1) [cite: 8] [cite_start]and **Particle-Wall boundaries** (Task 2)[cite: 13], we have devised four test scenarios. [cite_start]These scenarios compare numerical results against analytical solutions to ensure physical plausibility[cite: 20, 22].
+
+We have split the workload to cover both particle-particle and particle-wall interactions efficiently.
+
+### Work Division Plan
+
+| Scenario | Description | Type | Assignee |
+| :--- | :--- | :--- | :--- |
+| **1** | Vertical Bouncing on Floor | Normal Force / Wall Contact | **Qinfei** |
+| **2** | Horizontal Sliding with Friction | Coulomb Friction Limit | **Di** |
+| **3** | Rolling on Inclined Plane | Torque / Rotational Motion | **Qinfei** |
+| **4** | Oblique 2-Particle Collision | Particle-Particle Tangential | **Di** |
+
+---
+
+### Detailed Test Scenarios
+
+#### 1. Vertical Bouncing (Verification of Normal Force & COR)
+[cite_start]**Goal:** Verify the implementation of the coefficient of restitution ($e$) and normal wall contact forces.
+* **Setup:** A single particle drops from height $h_0$ onto a fixed horizontal floor (gravity $g$ active).
+* **Theoretical Expectation:**
+    * Rebound height: $h_{final} = e^2 \cdot h_0$
+    * Rebound velocity: $v_{out} = -e \cdot v_{in}$
+* **Status:** [ ] Pending
+
+#### 2. Horizontal Sliding (Verification of Coulomb Friction)
+[cite_start]**Goal:** Validate that the tangential force is correctly capped by the Coulomb limit ($F_t \le \mu F_n$) during sliding[cite: 11].
+* **Setup:** A particle is given an initial horizontal velocity $v_0$ on a floor with friction coefficient $\mu$. Gravity $g$ is active to provide normal force. Rotation is fixed (or ignored) to ensure pure sliding.
+* **Theoretical Expectation:**
+    * The particle should undergo constant deceleration: $a = -\mu \cdot g$
+    * Stopping distance: $d = \frac{v_0^2}{2 \mu g}$
+* **Status:** [ ] Pending
+
+#### 3. Rolling on Inclined Plane (System Validation)
+[cite_start]**Goal:** Verify the coupling between tangential forces and torque generation (rotational equations of motion)[cite: 12, 17].
+* **Setup:** A particle is released from rest on a rigid wall inclined at angle $\alpha$.
+* **Theoretical Expectation:**
+    * For a 2D disc (Moment of Inertia $I = 0.5 m r^2$) under pure rolling condition:
+    * Linear acceleration of center of mass: $a_{CM} = \frac{2}{3} g \sin(\alpha)$
+* **Status:** [ ] Pending
+
+#### 4. Oblique Particle-Particle Collision
+[cite_start]**Goal:** Verify tangential force generation and momentum conservation between two particles[cite: 20].
+* **Setup:** Two identical particles collide at an off-center angle (impact parameter $b > 0$).
+* **Theoretical Expectation:**
+    * Post-collision, both particles must acquire angular velocity ($\omega \neq 0$) due to tangential friction.
+    * Total linear momentum of the system must be conserved.
+* **Status:** [ ] Pending
+
 ## 👥 Contributors
 
 * **Di Liu** - *Task 1: Tangential Contact Force, Friction Model & Rotational Dynamics*

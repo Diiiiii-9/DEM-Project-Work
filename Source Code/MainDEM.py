@@ -160,6 +160,6 @@ def animate_trajectories(particles, trajectories, angles, max_radius):
                                   interval=30, blit=False)
     plt.show()
 
-
+# --- Run the main function ---
 if __name__ == "__main__":
     main()

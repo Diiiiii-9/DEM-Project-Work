@@ -3,8 +3,6 @@
 from abc import ABC, abstractmethod
 import numpy as np
 
-
-
 class TimeIntegration(ABC):
     @abstractmethod
     def pre_force_update(self, particles, delta_t):

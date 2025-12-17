@@ -54,6 +54,8 @@ class BaseValidationScenario(ABC):
         
         # 1. Setup Solver
         self.setup_simulation()
+
+        boundaries = getattr(self, 'boundaries', [])
         
         # Initialize dependencies
         # Note: You might need to customize gravity per scenario in setup, 
@@ -62,7 +64,7 @@ class BaseValidationScenario(ABC):
         integrator = VelocityVerletIntegrator()
         
         # Create solver
-        solver = DEMSolver(self.particles, contact_model, integrator, self.gravity)
+        solver = DEMSolver(self.particles, contact_model, integrator, self.gravity, boundaries)
         
         # 2. Time Loop
         steps = int(self.duration / self.dt)

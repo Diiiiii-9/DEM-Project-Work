@@ -1,10 +1,10 @@
 class DEMSolver:
-    def __init__(self, particles, contact_model, integrator, gravity, boundaries):
+    def __init__(self, particles, contact_model, integrator, gravity, boundaries=None):
         self.particles = particles
         self.contact_model = contact_model
         self.integrator = integrator
         self.gravity = gravity
-        self.boundaries = boundaries
+        self.boundaries = boundaries if boundaries is not None else []
 
     def solve_time_step(self, delta_t):
         # --- Step 1: Pre-force integration (update position, angle) ---

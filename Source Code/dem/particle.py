@@ -1,3 +1,5 @@
+# dem/particle.py
+
 import numpy as np
 
 class Particle:
@@ -34,9 +36,10 @@ class Particle:
         self.force = np.zeros(3, dtype=float)               # Force
         self.torque = np.zeros(3, dtype=float)                                  # Torque
 
+        # key: neighbor_particle_id, value: numpy array (tangential vector) - for task 1
+        self.tangential_overlaps = {}
+
         
-
-
     def reset_force(self):
         self.force = np.zeros(3, dtype=float)
         self.torque = np.zeros(3, dtype=float)

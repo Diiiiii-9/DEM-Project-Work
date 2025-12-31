@@ -93,7 +93,7 @@ def main():
 
     #plot_trajectories(trajectories)
     #plot_velocities(velocities, times)
-    plot_field([floor_boundary], [particle], "bouncing_scenario.gif")
+    plot_field([floor_boundary], [particle], output_filename)
 # --- Run the main function ---
 if __name__ == "__main__":
     main()

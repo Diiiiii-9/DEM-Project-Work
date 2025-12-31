@@ -1,5 +1,7 @@
 # validation/scenario_3_rolling.py
-
+"""================================
+Author: Qinfei Ran 2025.December.19th
+================================"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation

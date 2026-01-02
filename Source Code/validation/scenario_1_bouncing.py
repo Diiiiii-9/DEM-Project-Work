@@ -25,7 +25,7 @@ def main():
     # Particle parameters
     mass = 1.0
     E = 10000
-    nu = 0.0
+    nu = 0.2
     radius = 0.5
 
     # External load
@@ -84,7 +84,7 @@ def main():
     forces = [np.array(frc) for frc in forces]
 
     # --- Plot results ---
-    output_filename = "scenario_1_bouncing.gif"
+    output_filename = "scenario_1_bouncing_nu=0.2.gif"
     
     particle.history_time = np.array(times)
     particle.history_position = trajectories[0]

@@ -53,8 +53,17 @@ DEM-Project-Work/
 │   │   ├── solver.py         # Main DEM solver class (force loop)
 │   │   ├── contact_model.py  # Contact laws (Hertz-Mindlin, Friction)
 │   │   └── time_integration.py # Velocity-Verlet integrator
-│   └── results/              # Visualization and logging tools
-│       └── plot_utils.py     # Plotting functions using Matplotlib
+│   ├── results/              # Visualization and logging tools
+│   │   ├── plot_utils.py     # Plotting functions using Matplotlib
+│   │   ├── plot_field.py     # Plotting fields using Matplotlib 
+│   │   └── Plot_Results/     # Folder containing results for exmaple scenarios
+│   ├── test/                 # Folder containing unittests for implementation of Task 1 & 2 
+│   │   └── ...
+│   ├── validation/           # Scenarios for Task 3 and Analysis of Results
+│   │   ├── NumericalResults/ # Folder containing analysis for scenarios
+│   │   ├── scenario_1_bouncing.py # File with exemplar implementation of scenario
+│   │   ├── scenario_1_convergence.py # Convergence and Analysis of such scenario
+│   │   └── ...
 ├── LICENSE                   # MIT License
 └── README.md                 # Project documentation
 
@@ -93,6 +102,16 @@ You can modify simulation parameters directly in `MainDEM.py` under the `Inputs`
 * `particles`: Initial positions, velocities, and properties of particles.
 * `delta_t`: Time step size.
 
+4. **Scenarios:**
+You can also run the different scenarios by entenring the validation/ folder and using the following command:
+```bash
+python scenario_1_bouncing.py
+```
+This is also available for any other scenario, as well for the convergence and results analysis:
+```bash
+python scenario_1_convergence.py
+```
+
 ## 📊 Theory
 
 ### Contact Model (Hertz-Mindlin)
@@ -117,6 +136,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 | **2** | Horizontal Sliding with Friction | Coulomb Friction Limit | **Di** |
 | **3** | Rolling on Inclined Plane | Torque / Rotational Motion | **Qinfei** |
 | **4** | Oblique 2-Particle Collision | Particle-Particle Tangential | **Di** |
+| **1,2,3,4** | Analysis of All Scenarios | Convergence and Results Analysis | **Eduardo** |
 
 ---
 
@@ -158,6 +178,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 
 * **Di Liu** - *Task 1: Tangential Contact Force, Friction Model & Rotational Dynamics*
 * **Qinfei Ran** - *Task 2: Particle-Boundary Contact (Walls) & Solver Extensions*
+* **Eduardo Silva** - *Task 3: Implementation of Analysis of Scenarios & Comparison of Analytical and Numerical Results*
 
 ## 📄 License
 

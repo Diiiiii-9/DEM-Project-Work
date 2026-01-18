@@ -146,7 +146,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Theoretical Expectation:**
     * Rebound height: $h_{final} = e^2 \cdot h_0$
     * Rebound velocity: $v_{out} = -e \cdot v_{in}$
-* **Status:** [ ] Pending
+
 
 #### 2. Horizontal Sliding (Verification of Coulomb Friction)
 **Goal:** Validate that the tangential force is correctly capped by the Coulomb limit ($F_t \le \mu F_n$) during sliding.
@@ -154,7 +154,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Theoretical Expectation:**
     * The particle should undergo constant deceleration: $a = -\mu \cdot g$
     * Stopping distance: $d = \frac{v_0^2}{2 \mu g}$
-* **Status:** [ ] Pending
+
 
 #### 3. Rolling on Inclined Plane (System Validation)
 **Goal:** Verify the coupling between tangential forces and torque generation (rotational equations of motion).
@@ -162,7 +162,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Theoretical Expectation:**
     * For a 2D disc (Moment of Inertia $I = 0.5 m r^2$) under pure rolling condition:
     * Linear acceleration of center of mass: $a_{CM} = \frac{2}{3} g \sin(\alpha)$
-* **Status:** [ ] Pending
+
 
 #### 4. Oblique Particle-Particle Collision
 **Goal:** Verify tangential force generation and momentum conservation between two particles.
@@ -170,7 +170,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Theoretical Expectation:**
     * Post-collision, both particles must acquire angular velocity ($\omega \neq 0$) due to tangential friction.
     * Total linear momentum of the system must be conserved.
-* **Status:** [ ] Pending
+
 
 ## 👥 Contributors
 

@@ -116,15 +116,15 @@ python scenario_1_convergence.py
 
 ### Contact Model (Hertz-Mindlin)
 The contact force $\mathbf{F}$ is decomposed into normal ($F_n$) and tangential ($F_t$) components:
-* [cite_start]**Normal Force**: Based on the non-linear Hertz theory with a dissipative dashpot term[cite: 32, 85].
-* **Tangential Force**: Incremental spring-dashpot model bounded by the Coulomb friction limit $|F_t| [cite_start]\le \mu |F_n|$[cite: 34, 87].
+* **Normal Force**: Based on the non-linear Hertz theory with a dissipative dashpot term.
+* **Tangential Force**: Incremental spring-dashpot model bounded by the Coulomb friction limit $|F_t| \le \mu |F_n|$.
 
 ### Time Integration
-[cite_start]The simulation uses the **Velocity-Verlet** algorithm, a symplectic integrator that offers good stability and energy conservation properties for N-body systems[cite: 40, 93].
+The simulation uses the **Velocity-Verlet** algorithm, a symplectic integrator that offers good stability and energy conservation properties for N-body systems.
 
 ## Task 3: Verification and Validation Strategy
 
-[cite_start]To assess the correctness and robustness of the implemented **Hertz-Mindlin (HM+D) contact model** (Task 1) [cite: 8] [cite_start]and **Particle-Wall boundaries** (Task 2)[cite: 13], we have devised four test scenarios. [cite_start]These scenarios compare numerical results against analytical solutions to ensure physical plausibility[cite: 20, 22].
+To assess the correctness and robustness of the implemented **Hertz-Mindlin (HM+D) contact model** (Task 1) and **Particle-Wall boundaries** (Task 2), we have devised four test scenarios. These scenarios compare numerical results against analytical solutions to ensure physical plausibility.
 
 We have split the workload to cover both particle-particle and particle-wall interactions efficiently.
 
@@ -132,10 +132,8 @@ We have split the workload to cover both particle-particle and particle-wall int
 
 | Scenario | Description | Type | Assignee |
 | :--- | :--- | :--- | :--- |
-| **1** | Vertical Bouncing on Floor | Normal Force / Wall Contact | **Qinfei** |
-| **2** | Horizontal Sliding with Friction | Coulomb Friction Limit | **Di** |
-| **3** | Rolling on Inclined Plane | Torque / Rotational Motion | **Qinfei** |
-| **4** | Oblique 2-Particle Collision | Particle-Particle Tangential | **Di** |
+| **1, 3** | Vertical Bouncing on Floor & Rolling on Inclined Plane | Implementation of Tools | **Qinfei** |
+| **2, 4** | Horizontal Sliding with Friction & Oblique 2-Particle Collision | Implementation of Tools | **Di** |
 | **1,2,3,4** | Analysis of All Scenarios | Convergence and Results Analysis | **Eduardo** |
 
 ---
@@ -143,7 +141,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 ### Detailed Test Scenarios
 
 #### 1. Vertical Bouncing (Verification of Normal Force & COR)
-[cite_start]**Goal:** Verify the implementation of the coefficient of restitution ($e$) and normal wall contact forces.
+**Goal:** Verify the implementation of the coefficient of restitution ($e$) and normal wall contact forces.
 * **Setup:** A single particle drops from height $h_0$ onto a fixed horizontal floor (gravity $g$ active).
 * **Theoretical Expectation:**
     * Rebound height: $h_{final} = e^2 \cdot h_0$
@@ -151,7 +149,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Status:** [ ] Pending
 
 #### 2. Horizontal Sliding (Verification of Coulomb Friction)
-[cite_start]**Goal:** Validate that the tangential force is correctly capped by the Coulomb limit ($F_t \le \mu F_n$) during sliding[cite: 11].
+**Goal:** Validate that the tangential force is correctly capped by the Coulomb limit ($F_t \le \mu F_n$) during sliding.
 * **Setup:** A particle is given an initial horizontal velocity $v_0$ on a floor with friction coefficient $\mu$. Gravity $g$ is active to provide normal force. Rotation is fixed (or ignored) to ensure pure sliding.
 * **Theoretical Expectation:**
     * The particle should undergo constant deceleration: $a = -\mu \cdot g$
@@ -159,7 +157,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Status:** [ ] Pending
 
 #### 3. Rolling on Inclined Plane (System Validation)
-[cite_start]**Goal:** Verify the coupling between tangential forces and torque generation (rotational equations of motion)[cite: 12, 17].
+**Goal:** Verify the coupling between tangential forces and torque generation (rotational equations of motion).
 * **Setup:** A particle is released from rest on a rigid wall inclined at angle $\alpha$.
 * **Theoretical Expectation:**
     * For a 2D disc (Moment of Inertia $I = 0.5 m r^2$) under pure rolling condition:
@@ -167,7 +165,7 @@ We have split the workload to cover both particle-particle and particle-wall int
 * **Status:** [ ] Pending
 
 #### 4. Oblique Particle-Particle Collision
-[cite_start]**Goal:** Verify tangential force generation and momentum conservation between two particles[cite: 20].
+**Goal:** Verify tangential force generation and momentum conservation between two particles.
 * **Setup:** Two identical particles collide at an off-center angle (impact parameter $b > 0$).
 * **Theoretical Expectation:**
     * Post-collision, both particles must acquire angular velocity ($\omega \neq 0$) due to tangential friction.

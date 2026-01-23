@@ -167,8 +167,7 @@ class ObliqueCollisionScenario(BaseValidationScenario):
         print("Static plot saved.")
 
     def plot_combined_animation(self, stride=20):
-        # ... (这里保持你之前的动画代码不变，或者复制之前我发给你的动画代码) ...
-        # ... (为了节省篇幅，这里省略动画代码，请直接使用上面的动画代码块) ...
+
         output_dir = self.ensure_output_directory()
         print(f"Generating animation... (Stride={stride})")
 
